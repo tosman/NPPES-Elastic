@@ -1,14 +1,8 @@
 version: '2'
 
 services:
-  nppes: 
-    build: nppes/
-    volumes:
-        - ./nppes:/code
-    links:
-      - elasticsearch
-
   elasticsearch:
+    container_name: elasticsearch
     build: elasticsearch/
     ports:
       - "9200:9200"
@@ -26,6 +20,7 @@ services:
       - elk
 
   kibana:
+    container_name: kibana
     build: kibana/
     volumes:
       - ./kibana/config/:/usr/share/kibana/config
@@ -35,6 +30,16 @@ services:
       - elk
     depends_on:
       - elasticsearch
+    
+  nppes: 
+    container_name: nppes
+    build: nppes/
+    volumes:
+      - ./nppes:/code
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
 
 networks:
   elk:
