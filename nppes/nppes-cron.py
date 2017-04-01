@@ -34,7 +34,7 @@ def job():
 
     load_nppes.loadFiles(nppes_path, '/code/data/taxonomy.csv')
 
-schedule.every(20).seconds.do(job)
+schedule.every(1).months.do(job)
 
 while True:
     schedule.run_pending()
