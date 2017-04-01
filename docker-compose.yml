@@ -1,6 +1,12 @@
 version: '2'
 
 services:
+  nppes: 
+    build: nppes/
+    volumes:
+        - ./nppes:/code
+    links:
+      - elasticsearch
 
   elasticsearch:
     build: elasticsearch/
@@ -19,20 +25,6 @@ services:
     networks:
       - elk
 
-  logstash:
-    build: logstash/
-    volumes:
-      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./logstash/pipeline:/usr/share/logstash/pipeline
-    ports:
-      - "5000:5000"
-    environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
-    networks:
-      - elk
-    depends_on:
-      - elasticsearch
-
   kibana:
     build: kibana/
     volumes:
@@ -45,6 +37,5 @@ services:
       - elasticsearch
 
 networks:
-
   elk:
     driver: bridge
