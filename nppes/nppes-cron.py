@@ -21,7 +21,7 @@ def generate_nppes_file_name():
 def generate_nppes_path(file_name):
     return '{}/{}'.format('/code/data', file_name)
 
-def job():
+def load_providers():
     logging.warning('test')
     nppes_file_name = generate_nppes_file_name()
     nppes_path = generate_nppes_path(nppes_file_name)
@@ -34,7 +34,10 @@ def job():
 
     load_nppes.loadFiles(nppes_path, '/code/data/taxonomy.csv')
 
-schedule.every(1).months.do(job)
+schedule.every(32).days.do(load_providers)
+
+time.sleep(30)
+load_providers()
 
 while True:
     schedule.run_pending()
